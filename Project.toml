@@ -1,0 +1,17 @@
+name = "ABCDMatrixOptics"
+uuid = "ccdfd77c-c9b6-493d-8c46-f34d2494ed29"
+authors = ["Felix Wechsler (roflmaostc) <fxw+git@mailbox.org> and contributors"]
+version = "0.1.0"
+
+[deps]
+Parameters = "d96e819e-fc66-5662-9728-84c9c7592b0a"
+RecipesBase = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
+
+[compat]
+julia = "1.9"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
