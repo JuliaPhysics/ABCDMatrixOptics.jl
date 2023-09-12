@@ -44,17 +44,26 @@ Returned will be the final beam.
 
 Also available as `e * b`.
 """
-function propagate(e::Element, b::GeometricBeam{T}) where T
+function propagate(e::Element, b::GeometricBeam{T}; n=T(1)) where T
     x, k = RTM(e) * [b.x, b.k]
     return GeometricBeam{T}(
                 x=x, k=k,
-                z = b.z + dz(e)
+                z = b.z + dz(e),
             )
 end
 
-function propagate(es::Vector{<:Element}, b::AbstractBeam)
+function propagate(e::Interface, b::GeometricBeam{T}; n=T(1)) where T
+    x, k = RTM(e, b.n) * [b.x, b.k]
+    return GeometricBeam{T}(
+                x=x, 
+                k=k,
+                z = b.z + dz(e),
+                n = e.n)
+end
+
+function propagate(es::Vector{<:Element}, b::AbstractBeam{T}; n=T(1)) where T
     for e in reverse(es)
-        b = propagate(e, b)
+        b = propagate(e, b, n=b.n)
     end
     return b
 end

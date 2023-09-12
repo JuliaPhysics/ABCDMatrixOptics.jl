@@ -1,10 +1,10 @@
 export AbstractBeam, GeometricBeam
 
-abstract type AbstractBeam end
+abstract type AbstractBeam{T} end
 
-@with_kw struct GeometricBeam{T} <: AbstractBeam
-    x::T # radial extent
-    k = zero(x) # (angle/sin/tan of) slope of beam
-    z = zero(x) # position along beam axis
-    n = one(x) # index of refraction aka optical density
+@with_kw_noshow struct GeometricBeam{T} <: AbstractBeam{T}
+    x::T = zero(0.0) # radial extent
+    k::T = zero(x) # (angle/sin/tan of) slope of beam
+    z::T = zero(x) # position along beam axis
+    n::T = one(x) # index of refraction aka optical density
 end
