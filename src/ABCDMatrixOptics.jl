@@ -45,18 +45,18 @@ Returned will be the final beam.
 Also available as `e * b`.
 """
 function propagate(e::Element, b::GeometricBeam{T}; n=T(1)) where T
-    x, k = RTM(e) * [b.x, b.k]
+    w, k = RTM(e) * [b.w, b.k]
     return GeometricBeam{T}(
-                x=x, k=k,
+                w=w, k=k,
                 z = b.z + dz(e),
                 n = b.n
             )
 end
 
 function propagate(e::Interface, b::GeometricBeam{T}; n=T(1)) where T
-    x, k = RTM(e, b.n) * [b.x, b.k]
+    w, k = RTM(e, b.n) * [b.w, b.k]
     return GeometricBeam{T}(
-                x=x, 
+                w=w, 
                 k=k,
                 z = b.z + dz(e),
                 n = e.n)
