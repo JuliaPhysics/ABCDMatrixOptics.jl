@@ -39,4 +39,4 @@ beam_p = M * beam
 
 
 # Credits
-Substantial parts of this software are forked from [ngedwin98](https://github.com/ngedwin98/) and the [ABCDBeamTrace.jl](https://github.com/ngedwin98/ABCDBeamTrace.jl/blob/master/LICENSE.md) package.
+Substantial parts of this software are forked from [ngedwin98](https://github.com/ngedwin98/) and the [ABCDBeamTrace.jl](https://github.com/ngedwin98/ABCDBeamTrace.jl) package.
