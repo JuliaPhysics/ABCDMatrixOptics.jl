@@ -8,3 +8,6 @@ abstract type AbstractBeam{T} end
     z::T = zero(x) # position along beam axis
     n::T = one(x) # index of refraction aka optical density
 end
+
+
+

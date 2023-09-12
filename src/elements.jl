@@ -60,11 +60,10 @@ Returns the Ray Transfer (ABCD) matrix associated with
 an optical system described by a collection (e.g. a vector or
 iteration) of optical elements.
 
-
 Note, this should be used with caution. Since the output is a matrix,
 it will loose information about the latest medium (refractive index) present.
 
-Better, do
+Better, use a `Vector{<:Elements}` and apply it as a whole to a `b::AbstractBeam`.
 """
 function RTM(elements::Vector{<:Element}, nprev = 1)
     # identity matrix
