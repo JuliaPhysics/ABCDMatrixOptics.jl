@@ -16,8 +16,12 @@ using Test
 
 
     @testset "Propagate" begin
+        b0 = [FreeSpace(100), Interface(1.2)] * GeometricBeam(x = 1.0, k = 1.0)
+        @test b0 == GeometricBeam{Float64}(84.33333333333334, 0.8333333333333334, 100.0, 1.2)
 
-        @test [FreeSpace(100), Interface(1.2)] * GeometricBeam(x = 1.0, k = 1.0) == GeometricBeam{Float64}(84.33333333333334, 0.8333333333333334, 100.0, 1.2)
+        b1 = ABCDMatrixOptics.RTM([FreeSpace(100), Interface(1.2)]) * [1.0, 1.0]
+
+        @test [b0.x, b0.k] == b1
     end
 
     @testset "Beam trace" begin
