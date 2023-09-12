@@ -1,5 +1,7 @@
 # ABCDMatrixOptics
 
+[![Build Status](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml?query=branch%3Amain)
+
 This package implements the linear tracing of simple optical systems based on the [Ray transfer matrix analysis](https://en.wikipedia.org/wiki/Ray_transfer_matrix_analysis).
 
 ## Installation
@@ -10,7 +12,7 @@ julia> ]add https://github.com/JuliaPhysics/ABCDMatrixOptics.jl
 
 ## Simple Example
 
-A simple 4-f re-imaging system with a magnification of 2 can be expressed as:
+A simple 4f re-imaging system with a magnification of 2 can be expressed as:
 ```julia
 using ABCDMatrixOptics
 
@@ -32,7 +34,7 @@ beam_p = propagate(M, beam)
 ```
 
 
-[![Build Status](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml?query=branch%3Amain)
+
 
 
 # Credits
