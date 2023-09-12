@@ -1,6 +1,6 @@
 # ABCDMatrixOptics
 
-[![Build Status](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Build Status](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml?query=branch%3Amain) [![codecov](https://codecov.io/gh/JuliaPhysics/ABCDMatrixOptics.jl/graph/badge.svg?token=BHHxKcucdi)](https://codecov.io/gh/JuliaPhysics/ABCDMatrixOptics.jl)
 
 This package implements the linear tracing of simple optical systems based on the [Ray transfer matrix analysis](https://en.wikipedia.org/wiki/Ray_transfer_matrix_analysis).
 
