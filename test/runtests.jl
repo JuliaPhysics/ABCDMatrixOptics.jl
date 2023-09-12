@@ -15,6 +15,11 @@ using Test
     end
 
 
+    @testset "Propagate" begin
+
+        @test [FreeSpace(100), Interface(1.2)] * GeometricBeam(x = 1.0, k = 1.0) == GeometricBeam{Float64}(84.33333333333334, 0.8333333333333334, 100.0, 1.2)
+    end
+
     @testset "Beam trace" begin
         @test beamtrace([Interface(1.1), FreeSpace(100), ThinLens(100), FreeSpace(100)], GeometricBeam(x = 3.14)) == GeometricBeam{Float64}[GeometricBeam{Float64}(3.14, 0.0, 0.0, 1.0), GeometricBeam{Float64}(3.14, 0.0, 100.0, 1.0), GeometricBeam{Float64}(3.14, -0.031400000000000004, 100.0, 1.0), GeometricBeam{Float64}(-4.440892098500626e-16, -0.031400000000000004, 200.0, 1.0), GeometricBeam{Float64}(-4.440892098500626e-16, -0.028545454545454547, 200.0, 1.1)]
 

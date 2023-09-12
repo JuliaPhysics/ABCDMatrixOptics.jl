@@ -49,6 +49,7 @@ function propagate(e::Element, b::GeometricBeam{T}; n=T(1)) where T
     return GeometricBeam{T}(
                 x=x, k=k,
                 z = b.z + dz(e),
+                n = b.n
             )
 end
 
