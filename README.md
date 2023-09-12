@@ -24,13 +24,14 @@ l2 = ThinLens(300.0)
 f2 = FreeSpace(300)
 
 # simple, single ray
-beam = GeometricBeam{Float64}(x=10.0, k=0.1)
+beam = GeometricBeam(x=10.0, k=0.1)
 
 # create optical system, read it from the right
 M = [f2, l2, f12, l1, f1]
 
 # apply the system to the beam
-beam_p = propagate(M, beam)
+* or propagate(M, beam)
+beam_p = M * beam
 ```
 
 

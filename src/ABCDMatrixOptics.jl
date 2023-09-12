@@ -32,6 +32,7 @@ Base.isapprox(
 ) = isapprox(RTM(a), RTM(b); kwargs...)
 
 
+Base.:*(e::Union{Element, Vector{<:Element}}, b::AbstractBeam) = propagate(e, b)
 
 """
     propagate(e::Union{Element, Vector{<:Element}}, b)
@@ -41,6 +42,7 @@ of elements.
 
 Returned will be the final beam.
 
+Also available as `e * b`.
 """
 function propagate(e::Element, b::GeometricBeam{T}) where T
     x, k = RTM(e) * [b.x, b.k]
