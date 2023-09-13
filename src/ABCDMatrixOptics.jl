@@ -40,33 +40,31 @@ Base.isapprox(a::Union{Element, Vector{<:Element}}, b::Matrix; kwargs...) = Base
 """
     propagate(e::Union{Element, Vector{<:Element}}, b)
 
-Propagate a beam `b` either by a single element `e` or an vector
-of elements.
+Propagate a beam `b` either by a single element `e::Element` or `Vector{<:Element}`.
 
-Returned is the final beam.
+Return is the final beam.
 
 Also available as `e * b`.
 """
 function propagate(e::Element, b::GeometricBeam{T}) where T
     w, k = transfer_matrix(e) * [b.w, b.k]
-    return GeometricBeam{T}(w=w, k=k, z=b.z + dz(e))
+    return GeometricBeam{T}(w=w, k=k, zpos=b.zpos + dz(e))
 end
 
-function propagate(e::Matrix, b::GeometricBeam{T}) where T
-    w, k = e * [b.w, b.k]
-    return GeometricBeam{T}(w=w, k=k, z=b.z + dz(e))
+function propagate(e::Element, b::GaussianBeam{T}) where T
+    ABCD = transfer_matrix(e)
+    A, B, C, D = ABCD[1,1], ABCD[1,2], ABCD[2,1], ABCD[2,2]
+    q_new = (A * b.q + B) / (C * b.q + D)
+    return GaussianBeam{T}(q=q_new, zpos=b.zpos + dz(e), n=b.n, λ=b.λ) 
 end
-
 
 
 function propagate(es::Vector{<:Element}, b::AbstractBeam)
     return reduce((a,b) -> propagate(b, a), es, init=b)
 end
 
-Base.:*(e::Union{Element, Vector{<:Element}}, b::AbstractBeam) = propagate(e, b)
-Base.:*(e::Matrix, b::AbstractBeam) = propagate(e, b)
+Base.:*(e::Union{Matrix, Element, Vector{<:Element}}, b::AbstractBeam) = propagate(e, b)
 Base.:*(a::Element, b::Element) = transfer_matrix(a) * transfer_matrix(b)
-Base.:*(a::Element, b::Matrix) = transfer_matrix(a) * b
 Base.:*(a::Matrix, b::Element) = a * transfer_matrix(b)
 
 

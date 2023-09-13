@@ -9,9 +9,9 @@ using Test
 
     @testset "Interface" begin
         b2 = (Interface(n1=1.0, n2=1.2) * GeometricBeam(w=1.0, k=1.0))
-        @test b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.2, z = 0.0)
-        @test Interface(n1=1.2, n2=1.2) * b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.2, z = 0.0)
-        @test Interface(n1=1.2, n2=1.3) * b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.3, z = 0.0)
+        @test b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.2, zpos = 0.0)
+        @test Interface(n1=1.2, n2=1.2) * b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.2, zpos = 0.0)
+        @test Interface(n1=1.2, n2=1.3) * b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.3, zpos = 0.0)
     end
 
     @testset "ThickLens" begin
@@ -50,14 +50,14 @@ using Test
 
         @test beam.w == 10.0
         @test beam.k == 0.1
-        @test beam.z == 0.0
+        @test beam.zpos == 0.0
 
         M = [f1, l1, f12, l2, f2]
         beam_p = propagate(M, beam)
         
         @test beam_p.w ≈ -15.0
         @test beam_p.k ≈ - 2/30
-        @test beam_p.z ≈ 1000.0
+        @test beam_p.zpos ≈ 1000.0
 
         beam_p2 = ABCDMatrixOptics.transfer_matrix(M) * [beam.w, beam.k]
 
@@ -70,12 +70,15 @@ using Test
 
 
     @testset "Gaussian Beam" begin
-        beam = GaussianBeam()
+        beam = GaussianBeam(w0=100e-6)
         @test ABCDMatrixOptics.zR(beam) ≈ 0.049630215696521214
-        @test ABCDMatrixOptics.q(beam) ≈ 0.0 + 0.049630215696521214im
+        @test beam.q ≈ 0.0 + 0.049630215696521214im
         
-        beam2 = GaussianBeam(z=1e-3)
-        @test ABCDMatrixOptics.q(beam2) ≈ 0.001 + 0.049630215696521214im
+        beam2 = FreeSpace(100e-3) * GaussianBeam(w0=100e-6)
+        @test beam2.q ≈ 0.1 + 0.049630215696521214im
+        @test ABCDMatrixOptics.R(beam2) ≈ 0.12463158310083221
+        @test ABCDMatrixOptics.zR(beam2) ≈ 0.049630215696521214
+        @test ABCDMatrixOptics.w(beam2) ≈ 0.00022494062272623123
     end
 
 end

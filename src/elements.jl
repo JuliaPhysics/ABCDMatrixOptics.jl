@@ -96,6 +96,7 @@ dz(e::Matrix) = Inf
 
 Returns the Ray Transfer (ABCD) matrix associated with the given, optical element.
 """
+transfer_matrix(e::Matrix) = e
 transfer_matrix(e::Interface) = [1 0 ; ((e.n1 - e.n2) / (e.R * e.n2))  (e.n1 / e.n2)]
 transfer_matrix(e::ThinLens) = [1 0 ; -1/e.f 1]
 transfer_matrix(e::FreeSpace) = [1 e.dz ; 0 1]
