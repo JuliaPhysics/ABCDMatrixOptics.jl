@@ -12,6 +12,12 @@ using Test
         @test b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.2, zpos = 0.0)
         @test Interface(n1=1.2, n2=1.2) * b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.2, zpos = 0.0)
         @test Interface(n1=1.2, n2=1.3) * b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.3, zpos = 0.0)
+
+        @test ABCDMatrixOptics.dz([1 0; 0 1]) == Inf
+
+        @test Interface(1, 2) == Interface{Float64}(1.0, 2.0, 0.0, Inf)
+        @test Interface(1, 2, 1.0) == Interface{Float64}(1.0, 2.0, 0.0, 1.0)
+        @test Interface(1.0f0, 2.0f0, 1.0f0) == Interface{Float32}(1.0f0, 2.0f0, 0.0f0, 1.0f0)
     end
 
     @testset "ThickLens" begin
