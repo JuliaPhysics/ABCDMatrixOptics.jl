@@ -31,6 +31,9 @@ Base.isapprox(
     a::Vector{<:Element}, b::Vector{<:Element}; kwargs...
 ) = isapprox(transfer_matrix(a), transfer_matrix(b); kwargs...)
 
+Base.isapprox(
+    a::Element, b::Element; kwargs...
+) = isapprox(transfer_matrix(a), transfer_matrix(b); kwargs...)
 
 
 """

@@ -14,6 +14,16 @@ using Test
         @test Interface(n1=1.2, n2=1.3) * b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.3, z = 0.0)
     end
 
+    @testset "ThickLens" begin
+        @test ≈(([ThickLens(R1=100.0, R2=-50.0, t=20.0, n_lens=1.3), FreeSpace(110)]* GeometricBeam(w=1.0, k=0.0)).w + 1, 1, rtol=0.007)
+        @test transfer_matrix(ThickLens(R1=-12.1, R2=20.0, t=31.1, n_lens=1.3, n1=2.0, n2=1.4)) ≈
+        [1 0; (1.3 - 1.4)/ 20 / 1.4 1.3 / 1.4] * [1 31.1; 0 1] *  [1 0; (2 - 1.3) / 1.3 / (-12.1) 2 / 1.3]
+
+
+        @test ThickLens(R1=-12.1, R2=20.0, t=0.0, n_lens=1.3) ≈ ThinLens(f=inv((1.3 - 1) * (-1 / 12.1 - 1 / 20))) 
+    end
+
+
 
     @testset "Propagate" begin
         b0 = [Interface(n1=1.0, n2=1.2), FreeSpace(100)] * GeometricBeam(w = 1.0, k = 1.0)
