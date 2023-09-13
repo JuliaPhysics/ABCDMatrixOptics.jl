@@ -21,8 +21,8 @@ using ABCDMatrixOptics
 f1 = FreeSpace(200)
 l1 = ThinLens(200.0)
 f12 = FreeSpace(200 + 300)
-l2 = ThinLens(300.0)
-f2 = FreeSpace(300)
+l2 = ThinLens(400.0)
+f2 = FreeSpace(400)
 
 # simple, single ray
 beam = GeometricBeam(x=10.0, k=0.1)
