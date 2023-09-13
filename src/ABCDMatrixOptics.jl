@@ -7,7 +7,7 @@ include("beam.jl")
 include("elements.jl")
  #include("plots-recipes.jl")
 
-export propagate, beamtrace
+export propagate, trace
 
 
 
@@ -28,11 +28,14 @@ realization of an imaging system from another as long as both achieve
 
 """
 Base.isapprox(
-    a::Vector{<:Element}, b::Vector{<:Element}; kwargs...
-) = isapprox(RTM(a), RTM(b); kwargs...)
+              a::Union{Element ,Vector{<:Element}}, b::Union{Element, Vector{<:Element}}; kwargs...
+) = isapprox(transfer_matrix(a), transfer_matrix(b); kwargs...)
+
+Base.isapprox(a::Matrix, b::Union{Element, Vector{<:Element}}; kwargs...) = isapprox(a, transfer_matrix(b); kwargs...)
+
+Base.isapprox(a::Union{Element, Vector{<:Element}}, b::Matrix; kwargs...) = Base.isapprox(b, a) 
 
 
-Base.:*(e::Union{Element, Vector{<:Element}}, b::AbstractBeam) = propagate(e, b)
 
 """
     propagate(e::Union{Element, Vector{<:Element}}, b)
@@ -40,48 +43,47 @@ Base.:*(e::Union{Element, Vector{<:Element}}, b::AbstractBeam) = propagate(e, b)
 Propagate a beam `b` either by a single element `e` or an vector
 of elements.
 
-Returned will be the final beam.
+Returned is the final beam.
 
 Also available as `e * b`.
 """
-function propagate(e::Element, b::GeometricBeam{T}; n=T(1)) where T
-    w, k = RTM(e) * [b.w, b.k]
-    return GeometricBeam{T}(
-                w=w, k=k,
-                z = b.z + dz(e),
-                n = b.n
-            )
+function propagate(e::Element, b::GeometricBeam{T}) where T
+    w, k = transfer_matrix(e) * [b.w, b.k]
+    return GeometricBeam{T}(w=w, k=k, z=b.z + dz(e))
 end
 
-function propagate(e::Interface, b::GeometricBeam{T}; n=T(1)) where T
-    w, k = RTM(e, b.n) * [b.w, b.k]
-    return GeometricBeam{T}(
-                w=w, 
-                k=k,
-                z = b.z + dz(e),
-                n = e.n)
+function propagate(e::Matrix, b::GeometricBeam{T}) where T
+    w, k = e * [b.w, b.k]
+    return GeometricBeam{T}(w=w, k=k, z=b.z + dz(e))
 end
 
-function propagate(es::Vector{<:Element}, b::AbstractBeam{T}; n=T(1)) where T
-    for e in reverse(es)
-        b = propagate(e, b, n=b.n)
-    end
-    return b
+
+
+function propagate(es::Vector{<:Element}, b::AbstractBeam)
+    return reduce((a,b) -> propagate(b, a), es, init=b)
 end
+
+Base.:*(e::Union{Element, Vector{<:Element}}, b::AbstractBeam) = propagate(e, b)
+Base.:*(e::Matrix, b::AbstractBeam) = propagate(e, b)
+Base.:*(a::Element, b::Element) = transfer_matrix(a) * transfer_matrix(b)
+Base.:*(a::Element, b::Matrix) = transfer_matrix(a) * b
+Base.:*(a::Matrix, b::Element) = a * transfer_matrix(b)
+
 
 """
-    beamtrace(elems::Vector{<:Element}, b0::AbstractBeam)
+    trace(elems::Vector{<:Element}, b0::AbstractBeam)
 
 Trace a beam `b0` through a vector of elements `elems`.
 All intermediate states of the beam will be recorded.
 
-Returned will be a list of states where the last entry is the final beam.
+Return is a `Vector` of states where the last entry is the final beam.
+Final beam is equivalent to `propagate(elems, b0)`.
 """
-function beamtrace(elems::Vector{<:Element}, b0::B) where B
+function trace(elems::Vector{<:Element}, b0::B) where B
     bs = Vector{B}(undef, length(elems)+1)
     bs[1] = b0
-    for (idx, elem) in enumerate(reverse(elems))
-        bs[idx + 1] = propagate(elem, bs[idx])
+    for (idx, e) in enumerate(elems)
+        bs[idx + 1] = propagate(e, bs[idx])
     end
     return bs
 end

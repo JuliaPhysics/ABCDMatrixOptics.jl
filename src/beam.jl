@@ -8,18 +8,16 @@ Serves as abstract type for `GeometricBeam` and `GaussianBeam`.
 abstract type AbstractBeam{T} end
 
 """
-    GeometricBeam(w=0.0, k=0.0, z=0.0, n=1.0)
+    GeometricBeam(w=0.0, k=0.0, z=0.0)
 
 Define a geometrical ray beam.
 Distance to the axis is `w`, the angle with respect to the axis is `k`.
 `z` is the position along the optical axis.
-`n` is initial the refractive index of the ray.
 """
 @with_kw_noshow struct GeometricBeam{T} <: AbstractBeam{T}
     w::T = zero(0.0) # radial extent
     k::T = zero(w) # (angle/sin/tan of) slope of beam
     z::T = zero(w) # position along beam axis
-    n::T = one(w) # index of refraction aka optical density
 end
 
 """
