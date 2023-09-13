@@ -86,6 +86,7 @@ dz(e::FreeSpace) = e.dz
 dz(e::Interface{T}) where T = zero(T)
 dz(e::ThinLens{T}) where T = zero(T)
 dz(e::ThickLens) = e.t
+dz(e::Matrix) = Inf
 
 
 

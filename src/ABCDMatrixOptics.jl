@@ -28,12 +28,13 @@ realization of an imaging system from another as long as both achieve
 
 """
 Base.isapprox(
-    a::Vector{<:Element}, b::Vector{<:Element}; kwargs...
+              a::Union{Element ,Vector{<:Element}}, b::Union{Element, Vector{<:Element}}; kwargs...
 ) = isapprox(transfer_matrix(a), transfer_matrix(b); kwargs...)
 
-Base.isapprox(
-    a::Element, b::Element; kwargs...
-) = isapprox(transfer_matrix(a), transfer_matrix(b); kwargs...)
+Base.isapprox(a::Matrix, b::Union{Element, Vector{<:Element}}; kwargs...) = isapprox(a, transfer_matrix(b); kwargs...)
+
+Base.isapprox(a::Union{Element, Vector{<:Element}}, b::Matrix; kwargs...) = Base.isapprox(b, a) 
+
 
 
 """
@@ -51,12 +52,22 @@ function propagate(e::Element, b::GeometricBeam{T}) where T
     return GeometricBeam{T}(w=w, k=k, z=b.z + dz(e))
 end
 
+function propagate(e::Matrix, b::GeometricBeam{T}) where T
+    w, k = e * [b.w, b.k]
+    return GeometricBeam{T}(w=w, k=k, z=b.z + dz(e))
+end
+
+
+
 function propagate(es::Vector{<:Element}, b::AbstractBeam)
     return reduce((a,b) -> propagate(b, a), es, init=b)
 end
 
 Base.:*(e::Union{Element, Vector{<:Element}}, b::AbstractBeam) = propagate(e, b)
+Base.:*(e::Matrix, b::AbstractBeam) = propagate(e, b)
 Base.:*(a::Element, b::Element) = transfer_matrix(a) * transfer_matrix(b)
+Base.:*(a::Element, b::Matrix) = transfer_matrix(a) * b
+Base.:*(a::Matrix, b::Element) = a * transfer_matrix(b)
 
 
 """

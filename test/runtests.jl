@@ -64,6 +64,8 @@ using Test
         @test beam_p2 ≈ [-15.0, -0.06666666666666667] 
         @test beam_p2[1] ≈ beam_p.w
         @test beam_p2[2] ≈ beam_p.k
+        @test f2 * l2 * f12 * l1 * f1 ≈ M
+        @test M ≈ f2 * l2 * f12 * l1 * f1
     end
 
 
