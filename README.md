@@ -45,7 +45,12 @@ GeometricBeam{Float64}(-19.999999999999996, -0.05000000000000001, 1200.0)
 
 ## To-Dos
 * [x] Plotting mechanism
-* [ ] Extensive testing
+* [ ] Handle efractive index inside `GaussianBeam` properly (check that it works)
+* [ ] Host examples as nice Pluto examples.
+* [ ] Mirrors
+* [ ] Plotting of Optical Elemeng such as lensesss
+* [ ] Proper docstrings for all functions
+* [ ] More testing
 * [ ] Sagital and tangential elements
 * [ ] Examples on cavities and mode matching
 
