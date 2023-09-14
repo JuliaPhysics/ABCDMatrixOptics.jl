@@ -118,6 +118,11 @@ function transfer_matrix(elements::Vector{<:Element})
 end
 
 
+"""
+    discretize(e)
+
+Discretizes the elements for plots. Nothing is done expect for FreeSpace, which is split up
+"""
 
 discretize(e::FreeSpace, N::Int) = fill(FreeSpace(e.dz/N), N)
 discretize(e::Element, N::Int) = e

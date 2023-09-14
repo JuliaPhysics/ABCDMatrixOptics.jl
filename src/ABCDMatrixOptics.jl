@@ -40,8 +40,19 @@ Base.isapprox(a::Union{Element, Vector{<:Element}}, b::Matrix; kwargs...) = Base
 Propagate a beam `b` either by a single element `e::Element` or `Vector{<:Element}`.
 
 Return is the final beam.
-
 Also available as `e * b`.
+
+## Example
+```jldoctest
+julia> beam = FreeSpace(10) * GeometricBeam(w=10.0, k=1.0)
+GeometricBeam{Float64}(20.0, 1.0, 10.0)
+
+julia> beam = [ThinLens(10), FreeSpace(10)] * GeometricBeam(w=10.0, k=0.0)
+GeometricBeam{Float64}(0.0, -1.0, 10.0)
+
+julia> beam.w ≈ 0
+true
+```
 """
 function propagate(e::Element, b::GeometricBeam{T}) where T
     w, k = transfer_matrix(e) * [b.w, b.k]
@@ -73,6 +84,16 @@ All intermediate states of the beam will be recorded.
 
 Return is a `Vector` of states where the last entry is the final beam.
 Final beam is equivalent to `propagate(elems, b0)`.
+
+
+## Example
+```jldoctest
+julia> trace([ThinLens(10), FreeSpace(10)], GeometricBeam(w=10.0, k=0.0))
+3-element Vector{GeometricBeam{Float64}}:
+ GeometricBeam{Float64}(10.0, 0.0, 0.0)
+ GeometricBeam{Float64}(10.0, -1.0, 0.0)
+ GeometricBeam{Float64}(0.0, -1.0, 10.0)
+```
 """
 function trace(elems::Vector{<:Element}, b0::B) where B
     bs = Vector{B}(undef, length(elems)+1)
