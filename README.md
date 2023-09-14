@@ -23,12 +23,12 @@ using ABCDMatrixOptics
 # create needed optical elements
 f1 = FreeSpace(200)
 l1 = ThinLens(200.0)
-f12 = FreeSpace(200 + 300)
+f12 = FreeSpace(200 + 400)
 l2 = ThinLens(400.0)
 f2 = FreeSpace(400)
 
 # simple, single ray
-beam = GeometricBeam(x=10.0, k=0.1)
+beam = GeometricBeam(w=10.0, k=0.1)
 
 # create optical system
 # it's built from left to right.
@@ -38,6 +38,8 @@ M = [f1, l1, f12, l2, f2]
 # The matrices are evaluates as f2 * l2 * f12 * l1 * f1 * beam
 # * is syntactic sugar for propagate
 beam_p = M * beam
+GeometricBeam{Float64}(-19.999999999999996, -0.05000000000000001, 1200.0)
+# beam is magnified by 2 in size
 ```
 
 
