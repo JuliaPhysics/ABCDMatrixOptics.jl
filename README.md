@@ -42,10 +42,10 @@ beam_p = M * beam
 
 
 ## To-Dos
-* [  ] Plotting mechanism
-* [  ] Extensive testing
-* [  ] Sagital and tangential elements
-* [  ] Examples on cavities and mode matching
+* [x] Plotting mechanism
+* [ ] Extensive testing
+* [ ] Sagital and tangential elements
+* [ ] Examples on cavities and mode matching
 
 ## Contributing
 For any discussion and issues, please open an issue here. If your proposed changes are small, you can directly create a PR.
