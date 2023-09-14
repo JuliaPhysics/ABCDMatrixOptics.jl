@@ -37,7 +37,7 @@ struct GaussianBeam{T} <:AbstractBeam{T}
 end
 
 GaussianBeam(; w0=100e-3, zpos=0.0, n=1.0, λ=633e-9) = GaussianBeam{typeof(w0)}(1im * (π * n * w0^2) / (λ), zpos, n, λ)
-GaussianBeam(q; zpos=0.0, n=1.0, λ=633e-9) = GaussianBeam{typeof(w0)}(q, zpos, n, λ)
+GaussianBeam(q; zpos=0.0, n=1.0, λ=633e-9) = GaussianBeam{real(typeof(q))}(q, zpos, n, λ)
 
 """
     q(beam::GaussianBeam{T}) where T
