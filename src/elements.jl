@@ -113,9 +113,9 @@ transfer_matrix(e::Interface) = [1 0 ; ((e.n1 - e.n2) / (e.R * e.n2))  (e.n1 / e
 transfer_matrix(e::ThinLens) = [1 0 ; -1/e.f 1]
 transfer_matrix(e::Mirror) = [1 0 ; -2/e.R 1]
 transfer_matrix(e::FreeSpace) = [1 e.dz ; 0 1]
-transfer_matrix(e::ThickLens) = transfer_matrix([Interface(n1=e.n1, n2=e.n_lens, R=e.R1), 
-                                                 FreeSpace(e.t), 
-                                                 Interface(n1=e.n_lens, n2=e.n2, R=e.R2)])
+transfer_matrix(e::ThickLens) = [Interface(n1=e.n1, n2=e.n_lens, R=e.R1), 
+                                 FreeSpace(e.t), 
+                                 Interface(n1=e.n_lens, n2=e.n2, R=e.R2)]
 
 
 

@@ -26,7 +26,9 @@ using Test
         @test transfer_matrix(ThickLens(R1=-12.1, R2=20.0, t=31.1, n_lens=1.3, n1=2.0, n2=1.4)) ≈
         [1 0; (1.3 - 1.4)/ 20 / 1.4 1.3 / 1.4] * [1 31.1; 0 1] *  [1 0; (2 - 1.3) / 1.3 / (-12.1) 2 / 1.3]
 
+        tr = trace([ThickLens(R1=100.0, R2=-50.0, t=20.0, n_lens=1.3), FreeSpace(110)], GeometricBeam(w=1.0, k=0.0))
 
+        @test tr == GeometricBeam{Float64}[GeometricBeam{Float64}(1.0, 0.0, 0.0), GeometricBeam{Float64}(0.9538461538461538, -0.008723076923076924, 20.0), GeometricBeam{Float64}(-0.005692307692307774, -0.008723076923076924, 130.0)]
         @test ThickLens(R1=-12.1, R2=20.0, t=0.0, n_lens=1.3) ≈ ThinLens(f=inv((1.3 - 1) * (-1 / 12.1 - 1 / 20))) 
     end
 
@@ -106,4 +108,6 @@ using Test
 
     end
 
+
+    return true
 end

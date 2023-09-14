@@ -74,6 +74,7 @@ end
 Base.:*(e::Union{Matrix, Element, Vector{<:Element}}, b::AbstractBeam) = propagate(e, b)
 Base.:*(a::Element, b::Element) = transfer_matrix(a) * transfer_matrix(b)
 Base.:*(a::Matrix, b::Element) = a * transfer_matrix(b)
+Base.:*(a::Vector{<:Element}, b::Vector) = transfer_matrix(a) * b 
 
 
 """
@@ -96,13 +97,17 @@ julia> trace([ThinLens(10), FreeSpace(10)], GeometricBeam(w=10.0, k=0.0))
 ```
 """
 function trace(elems::Vector{<:Element}, b0::B) where B
-    bs = Vector{B}(undef, length(elems)+1)
+    bs = Vector{B}(undef, 1)
     bs[1] = b0
     for (idx, e) in enumerate(elems)
-        bs[idx + 1] = propagate(e, bs[idx])
+        push!(bs, trace(e, bs[end])...)
     end
     return bs
 end
 
+
+function trace(elems::Element, b0::B) where B
+    return [propagate(elems, b0)]
+end
 
 end
