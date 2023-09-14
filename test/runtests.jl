@@ -15,6 +15,7 @@ using Test
 
         @test ABCDMatrixOptics.dz([1 0; 0 1]) == Inf
 
+        @test Interface(1.0, 1) == Interface{Float64}(1.0, 1.0, 0.0, Inf)
         @test Interface(1, 2) == Interface{Float64}(1.0, 2.0, 0.0, Inf)
         @test Interface(1, 2, 1.0) == Interface{Float64}(1.0, 2.0, 0.0, 1.0)
         @test Interface(1.0f0, 2.0f0, 1.0f0) == Interface{Float32}(1.0f0, 2.0f0, 0.0f0, 1.0f0)
@@ -37,6 +38,7 @@ using Test
 
         b1 = ABCDMatrixOptics.transfer_matrix([Interface(n1=1.0, n2=1.2), FreeSpace(100)]) * [1.0, 1.0]
 
+        @test ABCDMatrixOptics.transfer_matrix([1 0; -1 -1]) == [1 0; -1 -1]
         @test [b0.w, b0.k] == b1
     end
 
