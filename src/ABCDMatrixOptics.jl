@@ -1,15 +1,12 @@
 module ABCDMatrixOptics
 
 using Parameters
-using RecipesBase
 
 include("beam.jl")
 include("elements.jl")
- #include("plots-recipes.jl")
+include("plots-recipes.jl")
 
 export propagate, trace
-
-
 
 
 """
@@ -48,14 +45,14 @@ Also available as `e * b`.
 """
 function propagate(e::Element, b::GeometricBeam{T}) where T
     w, k = transfer_matrix(e) * [b.w, b.k]
-    return GeometricBeam{T}(w=w, k=k, zpos=b.zpos + dz(e))
+    return GeometricBeam{T}(w, k, b.zpos + dz(e))
 end
 
 function propagate(e::Element, b::GaussianBeam{T}) where T
     ABCD = transfer_matrix(e)
     A, B, C, D = ABCD[1,1], ABCD[1,2], ABCD[2,1], ABCD[2,2]
     q_new = (A * b.q + B) / (C * b.q + D)
-    return GaussianBeam{T}(q=q_new, zpos=b.zpos + dz(e), n=b.n, λ=b.λ) 
+    return GaussianBeam{T}(q_new, b.zpos + dz(e), b.n, b.λ) 
 end
 
 

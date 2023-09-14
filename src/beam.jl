@@ -29,14 +29,15 @@ All parameters can be defined with keywords.
 Beam initial width `w`, initial propagation distance `z`, refractive index `n` 
 and vacuum wavelength `λ`
 """
-@kwdef struct GaussianBeam{T} <:AbstractBeam{T}
+struct GaussianBeam{T} <:AbstractBeam{T}
     q::Complex{T}
-    zpos::T=typeof(w)(0.0)
-    n::T=typeof(w)(1.0)
-    λ::T=typeof(w)(633e-9)
+    zpos::T
+    n::T
+    λ::T
 end
 
 GaussianBeam(; w0=100e-3, zpos=0.0, n=1.0, λ=633e-9) = GaussianBeam{typeof(w0)}(1im * (π * n * w0^2) / (λ), zpos, n, λ)
+GaussianBeam(q; zpos=0.0, n=1.0, λ=633e-9) = GaussianBeam{typeof(w0)}(q, zpos, n, λ)
 
 """
     q(beam::GaussianBeam{T}) where T
@@ -48,3 +49,4 @@ zR(beam::GaussianBeam) = imag(beam.q)
 w0(beam::GaussianBeam) = sqrt(zR(beam) * beam.λ / (π * beam.n))
 w(beam::GaussianBeam) = w0(beam) * sqrt(1 + (z(beam) / zR(beam))^2) 
 R(beam::GaussianBeam) =  (z(beam) + zR(beam)^2 / z(beam)) 
+

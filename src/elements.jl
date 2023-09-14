@@ -116,3 +116,9 @@ iteration) of optical elements.
 function transfer_matrix(elements::Vector{<:Element})
     return mapfoldr(transfer_matrix, (a,b) -> b * a, elements)
 end
+
+
+
+discretize(e::FreeSpace, N::Int) = fill(FreeSpace(e.dz/N), N)
+discretize(e::Element, N::Int) = e
+discretize(els::Vector{<:Element}, N::Int) = vcat(discretize.(els,N)...)
