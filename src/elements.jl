@@ -1,4 +1,4 @@
-export Element, FreeSpace, Interface, ThinLens, ThickLens
+export Element, FreeSpace, Interface, ThinLens, ThickLens, Mirror
 export transfer_matrix
 
 abstract type Element{T} end
@@ -76,6 +76,17 @@ Creates a thin lens with focal length `f`.
 ThinLens(f::T) where T = ThinLens{T}(f,0)
 
 
+"""
+    Mirror(R=Inf)
+
+Mirror with radius of curvature `R`.
+Per default `Inf`, so a flat mirror.
+"""
+@with_kw_noshow struct Mirror{T} <: Element{T}
+    R::T=Inf
+end
+
+
 # definitions of dz
 """
     dz(element::Element)
@@ -85,6 +96,7 @@ Returns how much an element changes the optical distance `z`.
 dz(e::FreeSpace) = e.dz
 dz(e::Interface{T}) where T = zero(T)
 dz(e::ThinLens{T}) where T = zero(T)
+dz(e::Mirror{T}) where T = zero(T)
 dz(e::ThickLens) = e.t
 dz(e::Matrix) = Inf
 
@@ -99,6 +111,7 @@ Returns the Ray Transfer (ABCD) matrix associated with the given, optical elemen
 transfer_matrix(e::Matrix) = e
 transfer_matrix(e::Interface) = [1 0 ; ((e.n1 - e.n2) / (e.R * e.n2))  (e.n1 / e.n2)]
 transfer_matrix(e::ThinLens) = [1 0 ; -1/e.f 1]
+transfer_matrix(e::Mirror) = [1 0 ; -2/e.R 1]
 transfer_matrix(e::FreeSpace) = [1 e.dz ; 0 1]
 transfer_matrix(e::ThickLens) = transfer_matrix([Interface(n1=e.n1, n2=e.n_lens, R=e.R1), 
                                                  FreeSpace(e.t), 

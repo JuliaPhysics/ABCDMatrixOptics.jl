@@ -4,6 +4,7 @@ Elements or `Vector{<:Elements}` can be also compare with `≈`.
 FreeSpace
 ThinLens
 ThickLens
+Mirror
 Interface
 ABCDMatrixOptics.dz
 ```

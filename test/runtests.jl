@@ -31,6 +31,11 @@ using Test
     end
 
 
+    @testset "Mirror" begin
+        @test [FreeSpace(100), Mirror(-100), FreeSpace(-50)] * GeometricBeam(w=100.0, k=0.0) == GeometricBeam{Float64}(0.0, 2.0, 50.0)
+
+    end
+
 
     @testset "Propagate" begin
         b0 = [Interface(n1=1.0, n2=1.2), FreeSpace(100)] * GeometricBeam(w = 1.0, k = 1.0)
