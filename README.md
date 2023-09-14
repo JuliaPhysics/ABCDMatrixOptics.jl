@@ -3,7 +3,7 @@
 # Early Stage, in a couple of weeks it should be stable
 
 
-[![Build Status](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml?query=branch%3Amain) [![codecov](https://codecov.io/gh/JuliaPhysics/ABCDMatrixOptics.jl/graph/badge.svg?token=BHHxKcucdi)](https://codecov.io/gh/JuliaPhysics/ABCDMatrixOptics.jl)
+[![Build Status](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml?query=branch%3Amain) [![codecov](https://codecov.io/gh/JuliaPhysics/ABCDMatrixOptics.jl/graph/badge.svg?token=BHHxKcucdi)](https://codecov.io/gh/JuliaPhysics/ABCDMatrixOptics.jl)  [![Documentation for stable version](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaPhysics.github.io/ABCDMatrixOptics.jl/stable) [![Documentation for development version](https://img.shields.io/badge/docs-main-blue.svg)](https://JuliaPhysics.github.io/ABCDMatrixOptics.jl/main)
 
 This package implements the linear tracing of simple optical systems based on the [Ray transfer matrix analysis](https://en.wikipedia.org/wiki/Ray_transfer_matrix_analysis).
 The convention of the optical elements is identical to those on Wikipedia.
