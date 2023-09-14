@@ -121,4 +121,4 @@ end
 
 discretize(e::FreeSpace, N::Int) = fill(FreeSpace(e.dz/N), N)
 discretize(e::Element, N::Int) = e
-discretize(els::Vector{<:Element}, N::Int) = vcat(discretize.(els,N)...)
+discretize(els::Vector{<:Element}, N::Int) = vcat(discretize.(els, Ref(N))...)

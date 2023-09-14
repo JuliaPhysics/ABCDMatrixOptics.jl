@@ -74,6 +74,13 @@ using Test
         @test M ≈ f2 * l2 * f12 * l1 * f1
     end
 
+    @testset "discretize" begin
+        @test ABCDMatrixOptics.discretize(FreeSpace(100), 10) == fill(FreeSpace(10.0), 10)
+        @test ABCDMatrixOptics.discretize(ThinLens(100), 10) == ThinLens(100)
+        @test ABCDMatrixOptics.discretize([FreeSpace(100), FreeSpace(2)], 2) == [FreeSpace(50.0), FreeSpace(50.0), FreeSpace(1.0), FreeSpace(1.0)]
+
+
+    end
 
     @testset "Gaussian Beam" begin
         beam = GaussianBeam(w0=100e-6)
