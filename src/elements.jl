@@ -75,6 +75,13 @@ Creates a thin lens with focal length `f`.
 """
 ThinLens(f::T) where T = ThinLens{T}(f,0)
 
+"""
+    ThinLens(R1, R2, n_lens, n)
+
+Creates a thin lens defined by the first radius of curvature `R1`, the second `R2`.
+The lens refractive index is `n_lens` and the outer refractive index is `n`.
+"""
+ThinLens(R1, R2, n_lens=1.5, n=1.0) = ThinLens(inv((n_lens - n) / n * (1/R1 - 1/R2)))
 
 """
     Mirror(R=Inf)
@@ -113,9 +120,9 @@ transfer_matrix(e::Interface) = [1 0 ; ((e.n1 - e.n2) / (e.R * e.n2))  (e.n1 / e
 transfer_matrix(e::ThinLens) = [1 0 ; -1/e.f 1]
 transfer_matrix(e::Mirror) = [1 0 ; -2/e.R 1]
 transfer_matrix(e::FreeSpace) = [1 e.dz ; 0 1]
-transfer_matrix(e::ThickLens) = [Interface(n1=e.n1, n2=e.n_lens, R=e.R1), 
+transfer_matrix(e::ThickLens) = transfer_matrix([Interface(n1=e.n1, n2=e.n_lens, R=e.R1), 
                                  FreeSpace(e.t), 
-                                 Interface(n1=e.n_lens, n2=e.n2, R=e.R2)]
+                                 Interface(n1=e.n_lens, n2=e.n2, R=e.R2)])
 
 
 
@@ -140,3 +147,26 @@ Discretizes the elements for plots. Nothing is done expect for FreeSpace, which 
 discretize(e::FreeSpace, N::Int) = fill(FreeSpace(e.dz/N), N)
 discretize(e::Element, N::Int) = e
 discretize(els::Vector{<:Element}, N::Int) = vcat(discretize.(els, Ref(N))...)
+
+
+"""
+    Base.isapprox(a::Vector{<:Element}, b::Vector{<:Element})
+
+Compare two vectors of elements using Base.isapprox for each element's
+ray matrix (ABCD entries). Does consequently not consider one
+discretization of element FreeSpace different from another, or one
+realization of an imaging system from another as long as both achieve
+(within tolerances) the same imaging.
+
+!!! note
+    The `atol` (absolute tolerance) parameter can be used but is
+    typically nonsensical as it will be used for each of the
+    ray matrix entries ABCD which usually differ vastly in magnitude.
+
+"""
+Base.isapprox(
+              a::Union{Element ,Vector{<:Element}}, b::Union{Element, Vector{<:Element}}; kwargs...
+) = isapprox(transfer_matrix(a), transfer_matrix(b); kwargs...)
+
+Base.isapprox(a::Matrix, b::Union{Element, Vector{<:Element}}; kwargs...) = isapprox(a, transfer_matrix(b); kwargs...)
+Base.isapprox(a::Union{Element, Vector{<:Element}}, b::Matrix; kwargs...) = Base.isapprox(b, a) 

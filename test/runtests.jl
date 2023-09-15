@@ -50,6 +50,11 @@ using Plots
         @test [b0.w, b0.k] == b1
     end
 
+    @testset "ThinLens" begin
+        @test ThinLens(-100, 100, 3, 1.3).f ≈ inv((3-1.3) / 1.3 * (1/(-100) - 1/100))
+    end
+
+
     @testset "Beam trace" begin
         @test trace(reverse([Interface(n1=1.0, n2=1.1), FreeSpace(100), ThinLens(100), FreeSpace(100)]), GeometricBeam(w = 3.14)) == GeometricBeam{Float64}[GeometricBeam{Float64}(3.14, 0.0, 0.0), GeometricBeam{Float64}(3.14, 0.0, 100.0), GeometricBeam{Float64}(3.14, -0.031400000000000004, 100.0), GeometricBeam{Float64}(-4.440892098500626e-16, -0.031400000000000004, 200.0), GeometricBeam{Float64}(-4.440892098500626e-16, -0.028545454545454547, 200.0)]
 
