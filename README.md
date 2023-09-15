@@ -46,7 +46,7 @@ blue_beam = GaussianBeam(w0=5e-3, λ=405e-9)
 plot(M, red_beam)
 plot!(M, blue_beam)
 ```
-
+![Simple plot](docs/assets/plot.png)
 
 ## To-Dos
 * [x] Plotting mechanism
