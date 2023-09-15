@@ -16,6 +16,7 @@ Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 ABCDMatrixOpticsPlotExt = "Plots"
 
 [compat]
+Interpolations = "0.14"
 Parameters = "0.12"
 RecipesBase = "1"
 julia = "1.9"
