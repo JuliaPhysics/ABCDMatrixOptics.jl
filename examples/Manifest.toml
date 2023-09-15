@@ -5,7 +5,7 @@ manifest_format = "2.0"
 project_hash = "8c37b6040b6fe04b3ef526df991d5b4d535e905d"
 
 [[deps.ABCDMatrixOptics]]
-deps = ["Colors", "Interpolations", "Parameters", "RecipesBase"]
+deps = ["Colors", "Interpolations", "Parameters", "PrecompileTools", "RecipesBase"]
 path = ".."
 uuid = "ccdfd77c-c9b6-493d-8c46-f34d2494ed29"
 version = "0.1.0"

@@ -112,6 +112,9 @@ using Plots
         beam3 = FreeSpace(100e-3) * GaussianBeam(w0=100e-6, λ=100e-9, n=1.3, zpos=0)
         @test beam3.q ≈ GaussianBeam(100e-3 + 1im * π * 1.3 * 100e-6^2 / 100e-9).q 
 
+        beam4 = Interface(n1=1.0, n2=2.0) * GaussianBeam()
+        @test beam4.n == 2.0
+        @test ABCDMatrixOptics.zR(beam4) /2 ≈ ABCDMatrixOptics.zR(GaussianBeam())
     end
 
     # how to do that properly?

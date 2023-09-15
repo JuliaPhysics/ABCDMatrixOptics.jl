@@ -29,8 +29,12 @@ function propagate(e::Element, b::GaussianBeam{T}) where T
     ABCD = transfer_matrix(e)
     A, B, C, D = ABCD[1,1], ABCD[1,2], ABCD[2,1], ABCD[2,2]
     q_new = (A * b.q + B) / (C * b.q + D)
-    return GaussianBeam{T}(q_new, b.zpos + dz(e), b.n, b.λ) 
+    return _n(T, e, b, q_new)
 end
+
+_n(::Type{T}, e::Element, b, q_new) where T = GaussianBeam{T}(q_new, b.zpos + dz(e), b.n, b.λ) 
+_n(::Type{T}, e::Interface, b, q_new) where T = GaussianBeam{T}(q_new, b.zpos + dz(e), e.n2, b.λ) 
+
 
 
 function propagate(es::Vector{<:Element}, b::AbstractBeam)

@@ -1,8 +1,5 @@
 # ABCDMatrixOptics
 
-# Early Stage, in a couple of weeks it should be stable
-
-
 [![Build Status](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl/actions/workflows/CI.yml?query=branch%3Amain) [![codecov](https://codecov.io/gh/JuliaPhysics/ABCDMatrixOptics.jl/graph/badge.svg?token=BHHxKcucdi)](https://codecov.io/gh/JuliaPhysics/ABCDMatrixOptics.jl)  [![Documentation for stable version](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaPhysics.github.io/ABCDMatrixOptics.jl/stable) [![Documentation for development version](https://img.shields.io/badge/docs-main-blue.svg)](https://JuliaPhysics.github.io/ABCDMatrixOptics.jl/dev)
 
 This package implements the linear tracing of simple optical systems based on the [Ray transfer matrix analysis](https://en.wikipedia.org/wiki/Ray_transfer_matrix_analysis).
@@ -15,8 +12,8 @@ julia> ]add https://github.com/JuliaPhysics/ABCDMatrixOptics.jl
 ```
 
 ## Simple Example
-
-A simple 4f re-imaging system with a magnification of 2 can be expressed as:
+See the [Pluto.jl](https://github.com/fonsp/Pluto.jl) examples [here](examples/).
+A simple 4f re-imaging system with a magnification of 2 can be expressed as.
 ```julia
 using ABCDMatrixOptics
 
@@ -40,17 +37,25 @@ M = [f1, l1, f12, l2, f2]
 beam_p = M * beam
 GeometricBeam{Float64}(-19.999999999999996, -0.05000000000000001, 1200.0)
 # beam is magnified by 2 in size
+
+
+# GaussianBeam
+red_beam = GaussianBeam(w0=5e-3)
+blue_beam = GaussianBeam(w0=5e-3, λ=405e-9)
+
+plot(M, red_beam)
+plot!(M, blue_beam)
 ```
 
 
 ## To-Dos
 * [x] Plotting mechanism
-* [ ] Handle efractive index inside `GaussianBeam` properly (check that it works)
-* [ ] Host examples as nice Pluto examples.
 * [x] Mirrors
-* [ ] Plotting of Optical Elemeng such as lensesss
 * [x] Proper docstrings for all functions
+* [x] Handle refractive index inside `GaussianBeam` properly (check that it works)
 * [x] More testing
+* [ ] Host examples as nice Pluto examples.
+* [ ] Plotting of Optical elements such as lenses
 * [ ] Sagital and tangential elements
 * [ ] Examples on cavities and mode matching
 
