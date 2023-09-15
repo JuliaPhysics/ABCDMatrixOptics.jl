@@ -1,5 +1,6 @@
 using ABCDMatrixOptics
 using Test
+using Plots
 
 @testset "ABCDMatrixOptics.jl" begin
 
@@ -108,6 +109,11 @@ using Test
 
     end
 
+    # how to do that properly?
+    @testset "Plots" begin
+        p = plot([FreeSpace(100e-3)], GaussianBeam(w0=100e-6, λ=100e-9, n=1.3, zpos=0))
+        @test p == p
+    end
 
     return true
 end
