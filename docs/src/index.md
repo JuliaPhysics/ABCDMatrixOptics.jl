@@ -6,9 +6,9 @@ The convention of the optical elements is identical to those on Wikipedia.
 See on [GitHub](https://github.com/JuliaPhysics/ABCDMatrixOptics.jl) for current issues, news...
 
 ## Installation
-Not registered yet, so
+This package is registered, so do
 ```julia
-julia> ]add https://github.com/JuliaPhysics/ABCDMatrixOptics.jl
+julia> ]add ABCDMatrixOptics.jl
 ```
 
 ## Simple Example
