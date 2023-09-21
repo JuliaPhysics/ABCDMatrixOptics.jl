@@ -120,7 +120,7 @@ using Plots
 
     # how to do that properly?
     @testset "Plots" begin
-        p = plot([FreeSpace(100e-3)], GaussianBeam(w0=100e-6, λ=100e-9, n=1.3, zpos=0))
+        p = plot([FreeSpace(100e-3)], GaussianBeam(w0=100e-6, λ=500e-9, n=1.3, zpos=0))
         @test p == p
         p = plot([FreeSpace(100e-3)], GaussianBeam(w0=100e-6, λ=1000e-9, n=1.3, zpos=0))
         @test p == p

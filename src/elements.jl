@@ -52,18 +52,17 @@ end
 Creates a flat interface with refractive index `n1` on the entering side
 and `n2` on the new medium.
 """
-Interface(; n1, n2, R=Inf) = Interface{Float64}(promote(n1, n2, R)...)
 Interface(n1::Integer, n2::Integer) = Interface{Float64}(promote(n1, n2, Inf)...)
-Interface(n1::Integer, n2::Integer, R) = Interface{Float64}(promote(n1, n2, R)...)
-Interface(n1, n2) = Interface{typeof(n1)}(n1, n2, Inf)
+Interface(n1, n2, R=Inf) = Interface{promote_type(typeof(n1), typeof(n2), typeof(R))}(promote(n1, n2, R)...)
 
 """
-    Interface(n1, n2, R)
+    Interface(; n1, n2, R=Inf)
 
 Creates a curved interface with radius `R` and with refractive index `n1` on the entering side
 and `n2` on the new medium.
 """
-Interface(n1, n2, R) = Interface{typeof(n1)}(n1, n2, 0, R)
+Interface(; n1, n2, R=Inf) = Interface{promote_type(typeof(n1), typeof(n2), typeof(R))}(promote(n1, n2, R)...)
+
 
 
 @with_kw_noshow struct ThinLens{T<:Number} <: Element{T}
