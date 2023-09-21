@@ -7,9 +7,9 @@ The convention of the optical elements is identical to those on Wikipedia. So fa
 If you need another element, feel free to open an issue!
 
 ## Installation
-Not registered yet, so
+This package is registered, so type (literally type a `]` in the terminal to enter the package manager and leave the package manager with pressing backspace):
 ```julia
-julia> ]add https://github.com/JuliaPhysics/ABCDMatrixOptics.jl
+julia> ]add ABCDMatrixOptics.jl
 ```
 
 ## Simple Example
