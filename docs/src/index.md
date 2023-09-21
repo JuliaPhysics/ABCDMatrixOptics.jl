@@ -37,5 +37,15 @@ M = [f1, l1, f12, l2, f2]
 beam_p = M * beam
 GeometricBeam{Float64}(-19.999999999999996, -0.05000000000000001, 1200.0)
 # beam is magnified by 2 in size
+
+
+# GaussianBeam
+red_beam = GaussianBeam(w0=5e-3)
+blue_beam = GaussianBeam(w0=5e-3, λ=405e-9)
+
+using Plots
+
+plot(M, red_beam)
+plot!(M, blue_beam)
 ```
 
