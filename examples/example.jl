@@ -46,7 +46,7 @@ f2 = FreeSpace(100)
 md"# Define a GeometricBeam"
 
 # ╔═╡ a20eb02a-d12a-4815-87a2-2810f5f6cdeb
-beam = GeometricBeam{Float64}(w=10.0, k=0.1)
+beam = GeometricBeam(w=10.0, k=0.1)
 
 # ╔═╡ 566895eb-4471-4830-a2fc-3b3f77a18d54
 M = [f2, l2, f12, l1, f1]
