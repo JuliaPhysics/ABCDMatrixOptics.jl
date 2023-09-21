@@ -28,6 +28,10 @@ GeometricBeam{Float64}(1.0, 0.0, 0.0)
     zpos::T = zero(w) # position along beam axis
 end
 
+function GeometricBeam(; w=0.0, k=zero(w), zpos=zero(w))
+    w, k, zpos = promote(w, k, zpos)
+    return GeometricBeam{typeof(w)}(; w, k, zpos)
+end
 
 """
     struct GaussianBeam{T} <: AbstractBeam{T}
@@ -64,8 +68,10 @@ julia> GaussianBeam(w0=100e-6, z=12.0, n=1.0, λ=633e-9, zpos=0.0)
 GaussianBeam{Float64}(12.0 + 0.049630215696521214im, 0.0, 1.0, 6.33e-7)
 ```
 """
-GaussianBeam(; w0=100e-3, z=0.0, n=1.0, λ=633e-9, zpos=0.0) = GaussianBeam{typeof(w0)}(z + 1im * (π * n * w0^2) / (λ), zpos, n, λ)
-
+function GaussianBeam(; w0=100e-3, z=0.0, n=1.0, λ=633e-9, zpos=0.0)
+    w0, z, n, λ, zpos = promote(w0, z, n, λ, zpos)
+    return GaussianBeam{typeof(w0)}(z + 1im * (π * n * w0^2) / (λ), zpos, n, λ)
+end
 """
     GaussianBeam(q; zpos, n=1.0, λ=633e-9)
 
@@ -78,7 +84,11 @@ julia> GaussianBeam(12 + 1im * 1.0 * π * 100e-6^2 / 633e-9)
 GaussianBeam{Float64}(12.0 + 0.049630215696521214im, 0.0, 1.0, 6.33e-7)
 ```
 """
-GaussianBeam(q; zpos=0.0, n=1.0, λ=633e-9) = GaussianBeam{real(typeof(q))}(q, zpos, n, λ)
+function GaussianBeam(q; zpos=0.0, n=1.0, λ=633e-9)
+    zpos, n, λ = promote(zpos, n, λ)
+    q = Complex{typeof(zpos)}(q)
+    return GaussianBeam{real(typeof(q))}(q, zpos, n, λ)
+end
 
 """
     z(beam::GaussianBeam)
