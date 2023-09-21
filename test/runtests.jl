@@ -48,6 +48,7 @@ using Plots
 
         @test ABCDMatrixOptics.transfer_matrix([1 0; -1 -1]) == [1 0; -1 -1]
         @test [b0.w, b0.k] == b1
+        @test [ThinLens(100), FreeSpace(100)] * [100, 0.0] == [0.0, -1.0]
     end
 
     @testset "ThinLens" begin
@@ -119,6 +120,10 @@ using Plots
 
     # how to do that properly?
     @testset "Plots" begin
+        p = plot([FreeSpace(100e-3)], GaussianBeam(w0=100e-6, λ=100e-9, n=1.3, zpos=0))
+        @test p == p
+        p = plot([FreeSpace(100e-3)], GaussianBeam(w0=100e-6, λ=1000e-9, n=1.3, zpos=0))
+        @test p == p
         p = plot([FreeSpace(100e-3)], GaussianBeam(w0=100e-6, λ=100e-9, n=1.3, zpos=0))
         @test p == p
     end
