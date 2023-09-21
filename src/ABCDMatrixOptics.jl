@@ -1,6 +1,5 @@
 module ABCDMatrixOptics
 
-using Parameters
 using PrecompileTools
 
 

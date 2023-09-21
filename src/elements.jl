@@ -26,13 +26,13 @@ Construct a thick lens with the keywords:
 * `n2=1`: refractive index of the medium of the exiting side
 
 """
-@with_kw_noshow struct ThickLens{T<:Number} <: Element{T}
+struct ThickLens{T<:Number} <: Element{T}
     R1::T
     R2::T
     t::T
-    n_lens::T=1.5
-    n1::T=1.0
-    n2::T=1.0
+    n_lens::T
+    n1::T
+    n2::T
 end
     
 function ThickLens(; R1, R2, t, n_lens=1.5, n1=1.0, n2=1.0)
@@ -40,11 +40,10 @@ function ThickLens(; R1, R2, t, n_lens=1.5, n1=1.0, n2=1.0)
     return ThickLens{typeof(R1)}(R1, R2, t, n_lens, n1, n2)
 end
 
-@with_kw_noshow struct Interface{T<:Number} <: Element{T}
-    n1::T=1.0
+struct Interface{T<:Number} <: Element{T}
+    n1::T
     n2::T
-    θ::T=zero(n1)
-    R::T=typeof(n1)(Inf) # R > 0 when light hits concave side
+    R::T
 end
 
 """
@@ -53,9 +52,10 @@ end
 Creates a flat interface with refractive index `n1` on the entering side
 and `n2` on the new medium.
 """
-Interface(n1::Integer, n2::Integer) = Interface{Float64}(promote(n1, n2, 0.0, Inf)...)
-Interface(n1::Integer, n2::Integer, R) = Interface{Float64}(promote(n1, n2, 0.0, R)...)
-Interface(n1, n2) = Interface{typeof(n1)}(n1, n2, 0.0, Inf)
+Interface(; n1, n2, R=Inf) = Interface{Float64}(promote(n1, n2, R)...)
+Interface(n1::Integer, n2::Integer) = Interface{Float64}(promote(n1, n2, Inf)...)
+Interface(n1::Integer, n2::Integer, R) = Interface{Float64}(promote(n1, n2, R)...)
+Interface(n1, n2) = Interface{typeof(n1)}(n1, n2, Inf)
 
 """
     Interface(n1, n2, R)

@@ -10,16 +10,16 @@ using Plots
 
     @testset "Interface" begin
         b2 = (Interface(n1=1.0, n2=1.2) * GeometricBeam(w=1.0, k=1.0))
-        @test b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.2, zpos = 0.0)
-        @test Interface(n1=1.2, n2=1.2) * b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.2, zpos = 0.0)
-        @test Interface(n1=1.2, n2=1.3) * b2 == GeometricBeam{Float64}(w=1.0, k=1.0 / 1.3, zpos = 0.0)
+        @test b2 == GeometricBeam(w=1.0, k=1.0 / 1.2, zpos = 0.0)
+        @test Interface(n1=1.2, n2=1.2) * b2 == GeometricBeam{Float64}(1.0, 1.0 / 1.2, 0.0)
+        @test Interface(n1=1.2, n2=1.3) * b2 == GeometricBeam{Float64}(1.0, 1.0 / 1.3, 0.0)
 
         @test ABCDMatrixOptics.dz([1 0; 0 1]) == Inf
 
-        @test Interface(1.0, 1) == Interface{Float64}(1.0, 1.0, 0.0, Inf)
-        @test Interface(1, 2) == Interface{Float64}(1.0, 2.0, 0.0, Inf)
-        @test Interface(1, 2, 1.0) == Interface{Float64}(1.0, 2.0, 0.0, 1.0)
-        @test Interface(1.0f0, 2.0f0, 1.0f0) == Interface{Float32}(1.0f0, 2.0f0, 0.0f0, 1.0f0)
+        @test Interface(1.0, 1) == Interface{Float64}(1.0, 1.0, Inf)
+        @test Interface(1, 2) == Interface{Float64}(1.0, 2.0, Inf)
+        @test Interface(1, 2, 1.0) == Interface{Float64}(1.0, 2.0, 1.0)
+        @test Interface(1.0f0, 2.0f0, 1.0f0) == Interface{Float32}(1.0f0, 2.0f0, 1.0f0)
     end
 
     @testset "ThickLens" begin
@@ -67,7 +67,7 @@ using Plots
         f12 = FreeSpace(200.0 + 300.0)
         l2 = ThinLens(300.0)
         f2 = FreeSpace(300.0)
-        beam = GeometricBeam{Float64}(w=10.0, k=0.1)
+        beam = GeometricBeam(w=10.0, k=0.1)
 
         @test beam.w == 10.0
         @test beam.k == 0.1

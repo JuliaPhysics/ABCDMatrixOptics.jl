@@ -22,15 +22,15 @@ julia> GeometricBeam(w=1.0)
 GeometricBeam{Float64}(1.0, 0.0, 0.0)
 ```
 """
-@with_kw_noshow struct GeometricBeam{T} <: AbstractBeam{T}
-    w::T = zero(0.0) # radial extent
-    k::T = zero(w) # (angle/sin/tan of) slope of beam
-    zpos::T = zero(w) # position along beam axis
+struct GeometricBeam{T} <: AbstractBeam{T}
+    w::T
+    k::T
+    zpos::T
 end
 
 function GeometricBeam(; w=0.0, k=zero(w), zpos=zero(w))
     w, k, zpos = promote(w, k, zpos)
-    return GeometricBeam{typeof(w)}(; w, k, zpos)
+    return GeometricBeam{typeof(w)}(w, k, zpos)
 end
 
 """
