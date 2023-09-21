@@ -5,10 +5,10 @@ manifest_format = "2.0"
 project_hash = "2cc98694802b24e87a3e3720dc69d52282946a14"
 
 [[deps.ABCDMatrixOptics]]
-deps = ["Colors", "Interpolations", "Parameters", "RecipesBase"]
+deps = ["Colors", "Interpolations", "Parameters", "PrecompileTools", "RecipesBase"]
 path = ".."
 uuid = "ccdfd77c-c9b6-493d-8c46-f34d2494ed29"
-version = "0.1.0"
+version = "0.2.0"
 
     [deps.ABCDMatrixOptics.extensions]
     ABCDMatrixOpticsPlotExt = "Plots"
