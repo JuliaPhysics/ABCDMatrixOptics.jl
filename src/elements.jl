@@ -14,7 +14,7 @@ Construct a free space propagation over distance `dz`.
 end
 
 """
-    ThickLens(; n_lens, R1, R2, t)
+    ThickLens(;  R1, R2, t, n_lens=1.5 n1=1.0, n2=1.0)
 
 Construct a thick lens with the keywords:
 
@@ -35,7 +35,10 @@ Construct a thick lens with the keywords:
     n2::T=1.0
 end
     
-
+function ThickLens(; R1, R2, t, n_lens=1.5, n1=1.0, n2=1.0)
+    R1, R2, t, n_lens, n1, n2 = promote(R1, R2, t, n_lens, n1, n2) 
+    return ThickLens{typeof(R1)}(R1, R2, t, n_lens, n1, n2)
+end
 
 @with_kw_noshow struct Interface{T<:Number} <: Element{T}
     n1::T=1.0
@@ -50,8 +53,8 @@ end
 Creates a flat interface with refractive index `n1` on the entering side
 and `n2` on the new medium.
 """
-Interface(n1::Integer, n2::Integer) = Interface{Float64}(n1, n2, zero(Float64), Inf)
-Interface(n1::Integer, n2::Integer, R) = Interface{Float64}(n1, n2, zero(Float64), R)
+Interface(n1::Integer, n2::Integer) = Interface{Float64}(promote(n1, n2, 0.0, Inf)...)
+Interface(n1::Integer, n2::Integer, R) = Interface{Float64}(promote(n1, n2, 0.0, R)...)
 Interface(n1, n2) = Interface{typeof(n1)}(n1, n2, 0.0, Inf)
 
 """
@@ -73,7 +76,7 @@ end
 
 Creates a thin lens with focal length `f`.
 """
-ThinLens(f::T) where T = ThinLens{T}(f,0)
+ThinLens(f::T) where T = ThinLens{T}(f, 0)
 
 """
     ThinLens(R1, R2, n_lens, n)
