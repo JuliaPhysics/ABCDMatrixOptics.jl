@@ -5,10 +5,10 @@ manifest_format = "2.0"
 project_hash = "8c37b6040b6fe04b3ef526df991d5b4d535e905d"
 
 [[deps.ABCDMatrixOptics]]
-deps = ["Colors", "Interpolations", "PrecompileTools", "RecipesBase"]
+deps = ["Colors", "Interpolations", "Parameters", "PrecompileTools", "RecipesBase"]
 path = ".."
 uuid = "ccdfd77c-c9b6-493d-8c46-f34d2494ed29"
-version = "0.1.0"
+version = "0.2.0"
 weakdeps = ["Plots"]
 
     [deps.ABCDMatrixOptics.extensions]
@@ -643,6 +643,12 @@ deps = ["Artifacts", "Libdl"]
 uuid = "efcefdf7-47ab-520b-bdef-62a2eaa19f15"
 version = "10.42.0+0"
 
+[[deps.Parameters]]
+deps = ["OrderedCollections", "UnPack"]
+git-tree-sha1 = "34c0e9ad262e5f7fc75b10a9952ca7692cfc5fbe"
+uuid = "d96e819e-fc66-5662-9728-84c9c7592b0a"
+version = "0.12.3"
+
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
 git-tree-sha1 = "716e24b21538abc91f6205fd1d8363f39b442851"
@@ -924,6 +930,11 @@ version = "1.5.0"
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
 uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+
+[[deps.UnPack]]
+git-tree-sha1 = "387c1f73762231e86e0c9c5443ce3b4a0a9a0c2b"
+uuid = "3a884ed6-31ef-47d7-9d2a-63182c4928ed"
+version = "1.0.2"
 
 [[deps.Unicode]]
 uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
