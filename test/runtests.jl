@@ -48,7 +48,7 @@ using Plots
 
         @test ABCDMatrixOptics.transfer_matrix([1 0; -1 -1]) == [1 0; -1 -1]
         @test [b0.w, b0.k] == b1
-        @test [ThinLens(100), FreeSpace(100)] * [100, 0.0] == [0.0, -1.0]
+        @test [ThinLens(100), FreeSpace(100)] * [100, 0.0] ≈ [0.0, -1.0]
     end
 
     @testset "ThinLens" begin
