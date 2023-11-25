@@ -18,7 +18,7 @@ ABCDMatrixOpticsPlotExt = "Plots"
 
 [compat]
 Colors = "0.12"
-Interpolations = "0.14"
+Interpolations = "0.14, 0.15"
 Parameters = "0.12"
 PrecompileTools = "1"
 RecipesBase = "1"
