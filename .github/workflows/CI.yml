@@ -25,7 +25,7 @@ jobs:
           - x64
     steps:
       - uses: actions/checkout@v4
-          with:
+        with:
             token: ${{ secrets.CODECOV_TOKEN }       
             fail_ci_if_error: false  # or true if you want CI to fail when Codecov fails
 
