@@ -36,6 +36,8 @@ jobs:
       - uses: codecov/codecov-action@v4
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          file: lcov.info
       
 
   docs:
