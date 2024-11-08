@@ -7,7 +7,6 @@ using PrecompileTools
 include("beam.jl")
 include("elements.jl")
 include("propagate.jl")
-include("plots-recipes.jl")
 
 
 @setup_workload begin

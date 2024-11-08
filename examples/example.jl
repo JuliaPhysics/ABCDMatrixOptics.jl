@@ -48,6 +48,9 @@ md"# Define a GeometricBeam"
 # ╔═╡ a20eb02a-d12a-4815-87a2-2810f5f6cdeb
 beam = GeometricBeam(w=10.0, k=0.1)
 
+# ╔═╡ 8c916040-9d5e-4ec5-8e1b-b501faa2f911
+beam.zpos
+
 # ╔═╡ 566895eb-4471-4830-a2fc-3b3f77a18d54
 M = [f2, l2, f12, l1, f1]
 
@@ -67,13 +70,19 @@ md"# Store all intermediate states"
 trace(M, beam)
 
 # ╔═╡ c174f8cb-a76d-4d55-8d07-88ef945ce4ab
-md"# Plotting of Gaussian Beams"
+md"# Plotting of Beams"
+
+# ╔═╡ d4ba59e3-c8a9-4da2-ba7d-00a565a8fc80
+Pkg.instantiate()
 
 # ╔═╡ c1dbc6a7-f302-45d0-bcc8-9e5044bc254b
 red_beam = GaussianBeam(w0=5e-3)
 
 # ╔═╡ 8eb11a1c-65d1-4d5a-aeae-d9d1e6c6a988
 blue_beam = GaussianBeam(w0=5e-3, λ=405e-9)
+
+# ╔═╡ 36184904-8683-4f9f-968e-b56ffe7d0428
+beam_geometric = GeometricBeam(w=5e-3, k=0.1e-3)
 
 # ╔═╡ 8faab7e3-56a9-4218-b187-7039dd43cb7b
 md"
@@ -82,10 +91,14 @@ We see that the 4f system both magnifies the red and blue beam by a factor of 2.
 But, the intermediate beam size and the curvatures depend on the wavelength!
 "
 
+# ╔═╡ 5844cbf9-1551-4124-a168-5c7e1d4e4746
+Revise.retry()
+
 # ╔═╡ 332416d5-91b8-497b-8d5e-57d8e1bc9a4d
 begin
 	plot(M, red_beam)
 	plot!(M, blue_beam)
+	plot!(M, beam_geometric)
 end
 
 # ╔═╡ 14ce1a97-81a8-43b4-82c6-cc9be5c1fe71
@@ -125,6 +138,7 @@ plot(system2, b2)
 # ╠═b68ee752-9080-4bec-b0d0-9b65b6210aff
 # ╟─5de0cb00-fa0b-4bb2-8f54-5abb4952c0eb
 # ╠═a20eb02a-d12a-4815-87a2-2810f5f6cdeb
+# ╠═8c916040-9d5e-4ec5-8e1b-b501faa2f911
 # ╠═566895eb-4471-4830-a2fc-3b3f77a18d54
 # ╟─1984aedc-e8a1-4331-a4ed-7ff3328ae348
 # ╠═d58bcfb6-6c7c-4870-9d30-c0093bc6dea8
@@ -133,9 +147,12 @@ plot(system2, b2)
 # ╠═0cb916dc-6057-46a6-8a37-945ee3e6d94d
 # ╟─c174f8cb-a76d-4d55-8d07-88ef945ce4ab
 # ╠═6389232e-ed13-40e1-8122-9875156c0603
+# ╠═d4ba59e3-c8a9-4da2-ba7d-00a565a8fc80
 # ╠═c1dbc6a7-f302-45d0-bcc8-9e5044bc254b
 # ╠═8eb11a1c-65d1-4d5a-aeae-d9d1e6c6a988
+# ╠═36184904-8683-4f9f-968e-b56ffe7d0428
 # ╟─8faab7e3-56a9-4218-b187-7039dd43cb7b
+# ╠═5844cbf9-1551-4124-a168-5c7e1d4e4746
 # ╠═332416d5-91b8-497b-8d5e-57d8e1bc9a4d
 # ╠═14ce1a97-81a8-43b4-82c6-cc9be5c1fe71
 # ╟─51c61aa0-4e1c-4c22-8c4f-8b6611ed5075
