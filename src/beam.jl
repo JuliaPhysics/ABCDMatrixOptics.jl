@@ -1,4 +1,4 @@
-export AbstractBeam, GeometricBeam, GaussianBeam
+export AbstractBeam, GeometricBeam, GaussianBeam, GaussianBeam3d
 
 """
     abstract type AbstractBeam{T}
@@ -134,3 +134,113 @@ Return curvature `R` of the Gaussian beam.
 See also [`z`](@ref), [`zR`](@ref), [`w`](@ref), [`w0`](@ref).
 """
 R(beam::GaussianBeam) =  (z(beam) + zR(beam)^2 / z(beam)) 
+
+"""
+    struct GaussianBeam3d{T} <: AbstractBeam{T}
+        qsag
+		qtan
+        zpos
+        n
+        λ
+    end
+"""
+struct GaussianBeam3d{T} <:AbstractBeam{T}
+	qsag::Complex{T}
+	qtan::Complex{T}
+    zpos::T
+    n::T
+    λ::T
+end
+
+"""
+    GaussianBeam3d(w0=100e-6, w0sag = w0, w0tan = w0, z=0.0, zsag = z, ztan = z, n=1.0, λ=633e-9, zpos=0.0)
+
+Defines a physical Gaussian beam with different sagital and tangent plane.
+All parameters can be defined with keywords.
+
+Beam initial width `w0` and propagation distance `z` can be set for each `w0sag`, `zsag` and `w0tan`, `ztan` plane
+Refractive index `n` and vacuum wavelength `λ`.
+`zpos` defines a global position which is not used to calculate the q parameter but
+instead is for tracking purposes
+
+See also [`GaussianBeam`](@ref).
+
+
+## Example
+```jldoctest
+julia> GaussianBeam(w0=100e-6, z=12.0, n=1.0, λ=633e-9, zpos=0.0)
+GaussianBeam{Float64}(12.0 + 0.049630215696521214im, 0.0, 1.0, 6.33e-7)
+```
+"""
+function GaussianBeam3d(; w0=100e-3, w0sag = w0, w0tan = w0, z=0.0, zsag = z, ztan = z, n=1.0, λ=633e-9, zpos=0.0)
+    w0sag, w0tan, zsag, ztan, n, λ, zpos = promote(w0sag, w0tan, zsag, ztan, n, λ, zpos)
+    return GaussianBeam3d{typeof(w0sag)}(zsag + 1im * (π * n * w0sag^2) / (λ), ztan + 1im * (π * n * w0tan^2) / (λ), zpos, n, λ)
+end
+
+"""
+    GaussianBeam3d(q; qsag = q, qtan = q, zpos, n=1.0, λ=633e-9)
+
+Returns a `GaussianBeam3d` defined by complex beam parameter `q`.
+
+
+## Example
+```jldoctest
+julia> GaussianBeam(12 + 1im * 1.0 * π * 100e-6^2 / 633e-9)
+GaussianBeam{Float64}(12.0 + 0.049630215696521214im, 0.0, 1.0, 6.33e-7)
+```
+"""
+function GaussianBeam3d(q; qsag = q, qtan = q, zpos=0.0, n=1.0, λ=633e-9)
+    zpos, n, λ = promote(zpos, n, λ)
+    qsag, qtan = Complex{typeof(zpos)}(qsag), Complex{typeof(zpos)}(qtan)
+    return GaussianBeam{real(typeof(qsag))}(qsag, qtan, zpos, n, λ)
+end
+
+"""
+    zsag(beam::GaussianBeam3d)
+
+Return the distance to the sagital beam waist `zsag` of the Gaussian beam. 
+All fsag where f is a function also exists for ftan
+
+"""
+zsag(beam::GaussianBeam3d) = real(beam.qsag)
+ztan(beam::GaussianBeam3d) = real(beam.qtan)
+
+"""
+    zRsag(beam::GaussianBeam3d)
+
+Return Rayleigh length `zRsag` in the sagital plane of the Gaussian beam.
+
+See also [`z`](@ref), [`w`](@ref), [`R`](@ref), [`w0`](@ref).
+"""
+zRsag(beam::GaussianBeam3d) = imag(beam.qsag)
+zRtan(beam::GaussianBeam3d) = imag(beam.qtan)
+
+"""
+    w0sag(beam::GaussianBeam3d)
+
+Return `w0` in the sagital plane of the Gaussian beam.
+
+See also [`z`](@ref), [`zR`](@ref), [`w`](@ref), [`R`](@ref).
+"""
+w0sag(beam::GaussianBeam3d) = sqrt(zRsag(beam) * beam.λ / (π * beam.n))
+w0tan(beam::GaussianBeam3d) = sqrt(zRtan(beam) * beam.λ / (π * beam.n))
+
+"""
+    wsag(beam::GaussianBeam3d)
+
+Return current width `w` in the sagital plane of the Gaussian beam.
+
+See also [`z`](@ref), [`zR`](@ref), [`R`](@ref), [`w0`](@ref).
+"""
+wsag(beam::GaussianBeam3d) = w0sag(beam) * sqrt(1 + (zsag(beam) / zRsag(beam))^2) 
+wtan(beam::GaussianBeam3d) = w0tan(beam) * sqrt(1 + (ztan(beam) / zRtan(beam))^2) 
+
+"""
+    Rsag(beam::GaussianBeam3d)
+
+Return curvature `R` in the sagital plane of the Gaussian beam.
+
+See also [`z`](@ref), [`zR`](@ref), [`w`](@ref), [`w0`](@ref).
+"""
+Rsag(beam::GaussianBeam3d) =  (zsag(beam) + zRsag(beam)^2 / zsag(beam)) 
+Rtan(beam::GaussianBeam3d) =  (ztan(beam) + zRtan(beam)^2 / ztan(beam)) 
