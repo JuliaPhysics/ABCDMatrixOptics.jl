@@ -211,14 +211,16 @@ transfer_matrix(e::ThickLens) = transfer_matrix([Interface(n1=e.n1, n2=e.n_lens,
 	
 Returns both the Ray Transfer matrices (ABCDsag, ABCDtag) associated with the given, optical element
 """
-# https://doi.org/10.1364/AO.26.000427 R>0 for concave surface, with e.θ2 asin(e.n1 * sin(e.θ) / e.n2) (Snell-Descartes law
+# https://doi.org/10.1364/AO.26.000427 R>0 for concave surface, with e.θ2 asin(e.n1 * sin(e.θ) / e.n2) (Snell-Descartes law)
 transfer_matrix(e::Interface3d) = ([1 0 ; (e.n2*cos(asin(e.n1 * sin(e.θ) / e.n2)) - e.n1*cos(e.θ) )/(e.n2*e.R) e.n1/e.n2 ],
-									[cos(asin(e.n1 * sin(e.θ) / e.n2))/cos(e.θ) 0 ; ((e.n2*cos(asin(e.n1 * sin(e.θ) / e.n2)) - e.n1*cos(e.θ)) / (e.R * e.n2))  (e.n1*cos(e.θ))/(e.n2*cos(asin(e.n1 * sin(e.θ) / e.n2)))] )
+				[cos(asin(e.n1 * sin(e.θ) / e.n2))/cos(e.θ) 0 ; ((e.n2*cos(asin(e.n1 * sin(e.θ) / e.n2)) - e.n1*cos(e.θ)) / (e.R * e.n2))  (e.n1*cos(e.θ))/(e.n2*cos(asin(e.n1 * sin(e.θ) / e.n2)))] )
 transfer_matrix(e::ThinLens3d) = ([1 0 ; -1/(e.f * cos(e.θ)) 1],
-									[1 0 ; -cos(e.θ)/e.f 1])
+				[1 0 ; -cos(e.θ)/e.f 1])
 transfer_matrix(e::Mirror3d) = ([1 0 ; -2*cos(e.θ)/e.R 1] ,
-								[1 0 ; -2/(e.R * cos(e.θ)) 1] )
-transfer_matrix(e::ThickLens3d) = (missing, missing)
+				[1 0 ; -2/(e.R * cos(e.θ)) 1] )
+transfer_matrix(e::ThickLens3d) = transfer_matrix([Interface3d(e.θ, n1=e.n1, n2 = e.n_lens, R=e.R1),
+							FreeSpace(e.t),
+							Interface3d(e.θ, n1=e.n_lens, n2 = e.n2, R=e.R2)])
 
 """
     transfer_matrix(elements)
