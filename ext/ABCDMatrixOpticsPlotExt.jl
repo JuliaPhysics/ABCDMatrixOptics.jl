@@ -21,7 +21,7 @@ mutable struct WithGeometricBeam
 end
 
 # did not succed to plot 2 shape with a single @receipe ..
-function Myplot3d(system::Vector{<:Elements}, beam::ABCDMatrixOptics.GaussianBeam3d)
+function beamplot3d(system::Vector{<:Elements}, beam::ABCDMatrixOptics.GaussianBeam3d)
     ds = ABCDMatrixOptics2.discretize(system, 200)
     N = length(ds) + 1
     Tz = typeof(float(beam.zpos))
