@@ -144,9 +144,10 @@ end
 
 Creates a `θ`-tilted thin lens defined by the first radius of curvature `R1`, the second `R2`.
 The lens refractive index is `n_lens` and the outer refractive index is `n`.
+R>0 for concave surface
 """
 function ThinLens3d(θ; R1, R2, n_lens=1.5, n=1.0) 
-	f = inv((n_lens - n) / n * (1/R1 - 1/R2))
+	f = inv((n_lens - n) / n * (-1/R1 + 1/R2))
 	return ThinLens3d(θ, f)
 end
 ThinLens3d(θ, f) = ThinLens3d(promote(θ, f)...)
