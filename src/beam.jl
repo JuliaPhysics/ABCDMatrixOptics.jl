@@ -168,8 +168,8 @@ See also [`GaussianBeam`](@ref).
 
 ## Example
 ```jldoctest
-julia> GaussianBeam(w0=100e-6, z=12.0, n=1.0, λ=633e-9, zpos=0.0)
-GaussianBeam{Float64}(12.0 + 0.049630215696521214im, 0.0, 1.0, 6.33e-7)
+julia> GaussianBeam3d(w0=100e-6, z=12.0, n=1.0, λ=633e-9, zpos=0.0)
+GaussianBeam3d{Float64}(12.0 + 0.049630215696521214im, 12.0 + 0.049630215696521214im, 0.0, 1.0, 6.33e-7)
 ```
 """
 function GaussianBeam3d(; w0=100e-3, w0sag = w0, w0tan = w0, z=0.0, zsag = z, ztan = z, n=1.0, λ=633e-9, zpos=0.0)
@@ -185,14 +185,14 @@ Returns a `GaussianBeam3d` defined by complex beam parameter `q`.
 
 ## Example
 ```jldoctest
-julia> GaussianBeam(12 + 1im * 1.0 * π * 100e-6^2 / 633e-9)
-GaussianBeam{Float64}(12.0 + 0.049630215696521214im, 0.0, 1.0, 6.33e-7)
+julia> GaussianBeam3d(12 + 1im * 1.0 * π * 100e-6^2 / 633e-9)
+GaussianBeam3d{Float64}(12.0 + 0.049630215696521214im, 12.0 + 0.049630215696521214im, 0.0, 1.0, 6.33e-7) 
 ```
 """
 function GaussianBeam3d(q; qsag = q, qtan = q, zpos=0.0, n=1.0, λ=633e-9)
     zpos, n, λ = promote(zpos, n, λ)
     qsag, qtan = Complex{typeof(zpos)}(qsag), Complex{typeof(zpos)}(qtan)
-    return GaussianBeam{real(typeof(qsag))}(qsag, qtan, zpos, n, λ)
+    return GaussianBeam3d{real(typeof(qsag))}(qsag, qtan, zpos, n, λ)
 end
 
 """
