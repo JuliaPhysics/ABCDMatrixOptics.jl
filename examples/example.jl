@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.3
+# v0.20.8
 
 using Markdown
 using InteractiveUtils
@@ -33,11 +33,11 @@ f1 = FreeSpace(200)
 # ╔═╡ a4f123a0-7ff4-414d-b2ba-e997584a060f
 l1 = ThinLens(200.0)
 
+# ╔═╡ 7a19d973-7d69-45de-b731-2d673d89021b
+l2 = ThinLens(100.0)
+
 # ╔═╡ 02bd56b5-4fe1-4a70-a07d-1ffca857478c
 f12 = FreeSpace(200 + 100)
-
-# ╔═╡ 38603793-c1f2-4281-bb7d-874ccdab6fe0
-l2 = ThinLens(100.0)
 
 # ╔═╡ b68ee752-9080-4bec-b0d0-9b65b6210aff
 f2 = FreeSpace(100)
@@ -101,14 +101,39 @@ begin
 	plot!(M, beam_geometric)
 end
 
-# ╔═╡ 14ce1a97-81a8-43b4-82c6-cc9be5c1fe71
-plot([ThickLens(R1=100e-3, R2=10e-3,t=10e-3)], GaussianBeam())
+# ╔═╡ 720bc546-8196-4210-9cb2-364799951ccf
+md"# Plot Simple Lens system"
+
+# ╔═╡ 1a9aef8d-80a0-4dc2-9f63-3bd9ee52d58d
+tl1 = ThickLens(R1=100, R2=-100, t=0)
+
+# ╔═╡ 3832f547-0d24-4688-b77d-453053e577ea
+tl2 = ThickLens(R1=200, R2=-200, t=50)
+
+# ╔═╡ 38ecda12-6e81-4035-ad40-9498334471e7
+tl1.focal_length
+
+# ╔═╡ 8579099b-9c7e-47b8-8114-5c90653e2df0
+tl2.focal_length
+
+# ╔═╡ 3442fbeb-99a4-4af7-9816-283b533c3421
+M2 = [f2, tl1, f12, tl2, f1]
+
+# ╔═╡ ad8215d3-901e-4629-98c0-ee56533e5c1c
+begin
+	plot(M2, beam)
+	# specify the height and it'll show the lens with that height
+	plot!(M2, height=40)
+end
 
 # ╔═╡ 51c61aa0-4e1c-4c22-8c4f-8b6611ed5075
 md"# Effects of refractive index on Beam"
 
 # ╔═╡ 829c357a-f490-4ad8-98ce-b4ebbf09c552
 plot([FreeSpace(10e-3), Interface(n1=1.0, n2=2.0), FreeSpace(10e-3)], GaussianBeam(w0=10f-6))
+
+# ╔═╡ fc8c7aba-6a28-462f-a634-e25ead9486c0
+
 
 # ╔═╡ d6b93543-d91b-490a-8b21-2f04f7b781d3
 md"# ThickLensTracing"
@@ -133,8 +158,8 @@ plot(system2, b2)
 # ╟─82339a93-c98f-43e2-ba23-88c8c52bd45c
 # ╠═e2e158c6-f690-4692-aae7-fecad5713b31
 # ╠═a4f123a0-7ff4-414d-b2ba-e997584a060f
+# ╠═7a19d973-7d69-45de-b731-2d673d89021b
 # ╠═02bd56b5-4fe1-4a70-a07d-1ffca857478c
-# ╠═38603793-c1f2-4281-bb7d-874ccdab6fe0
 # ╠═b68ee752-9080-4bec-b0d0-9b65b6210aff
 # ╟─5de0cb00-fa0b-4bb2-8f54-5abb4952c0eb
 # ╠═a20eb02a-d12a-4815-87a2-2810f5f6cdeb
@@ -154,9 +179,16 @@ plot(system2, b2)
 # ╟─8faab7e3-56a9-4218-b187-7039dd43cb7b
 # ╠═5844cbf9-1551-4124-a168-5c7e1d4e4746
 # ╠═332416d5-91b8-497b-8d5e-57d8e1bc9a4d
-# ╠═14ce1a97-81a8-43b4-82c6-cc9be5c1fe71
+# ╟─720bc546-8196-4210-9cb2-364799951ccf
+# ╠═1a9aef8d-80a0-4dc2-9f63-3bd9ee52d58d
+# ╠═3832f547-0d24-4688-b77d-453053e577ea
+# ╠═38ecda12-6e81-4035-ad40-9498334471e7
+# ╠═8579099b-9c7e-47b8-8114-5c90653e2df0
+# ╠═3442fbeb-99a4-4af7-9816-283b533c3421
+# ╠═ad8215d3-901e-4629-98c0-ee56533e5c1c
 # ╟─51c61aa0-4e1c-4c22-8c4f-8b6611ed5075
 # ╠═829c357a-f490-4ad8-98ce-b4ebbf09c552
+# ╠═fc8c7aba-6a28-462f-a634-e25ead9486c0
 # ╟─d6b93543-d91b-490a-8b21-2f04f7b781d3
 # ╠═c1a34ab4-f75d-4dda-bd38-d3f0c22ee793
 # ╠═d1dec156-89ea-477f-88c5-069bc73e9e6b
