@@ -15,6 +15,9 @@ mutable struct WithGeometricBeam
 end
 
 
+
+
+
 # type recipe, e.g. for `plot(WithBeam(system, beam))`
 @recipe f(::Type{WithGaussianBeam}, data::WithGaussianBeam) = begin
     seriestype := :shape
@@ -117,12 +120,70 @@ function color(λ)
     color = Colors.HSL(hue_of_λ(λ), 1.0, 0.5)
 end
 
+
+function contour_element(element::ThickLens, height)
+    # first surface 
+    φ = asin(height / element.R1) 
+    Δx = cos(π - φ) * element.R1
+    φs = range(π - φ, π + φ, 100)
+
+    x = cos.(φs) .* element.R1 .- Δx
+    y = sin.(φs) .* element.R1
+
+
+    # second surface 
+    φ = asin(-height / element.R2) 
+    Δx = -cos(φ) * element.R2
+    φs = range(-φ, φ, 100)
+    x2 = -cos.(φs) .* element.R2 .- Δx .+ element.t
+    y2 = -sin.(φs) .* element.R2
+
+
+    # merge x1,x2, y1, y2
+    x = vcat(x, x2)
+    y = vcat(y, y2)
+    return (x, y)
+end
+
+
+
+function contour_element(element::ThinLens, height)
+    return ([0, 0], [height, -height])
+end
+
+
+
+function contour_element(element, height)
+    return Float64[], Float64[]
+end
+
+
 # user recipe, e.g. for `plot(system, beam)`
 @recipe f(system::Vector{<:Element}, beam::ABCDMatrixOptics.GaussianBeam) =
     WithGaussianBeam(system, beam)
 
 @recipe f(system::Vector{<:Element}, beam::ABCDMatrixOptics.GeometricBeam) =
     WithGeometricBeam(system, beam)
+
+@recipe f(system::Vector{<:Element}; height=1) = begin
+    
+    seriestype := :shape
+    linecolor --> color(425e-9)
+    fillcolor --> color(425e-9)
+    fillalpha --> 0.1
+
+    z = 0
+    xs = []
+    ys = []
+    for element in system
+        @series begin
+            label --> nothing
+            x, y = contour_element(element, height)
+            z = z + ABCDMatrixOptics.dz(element)
+            x .+ z, y
+        end
+    end
+end
 
 
 end
