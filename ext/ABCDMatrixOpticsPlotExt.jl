@@ -127,7 +127,7 @@ function contour_element(element::ThickLens, height)
     Δx = cos(π - φ) * element.R1
     φs = range(π - φ, π + φ, 100)
 
-    x = cos.(φs) .* element.R1 .- Δx
+    x = cos.(φs) .* element.R1 .- Δx .- element.t
     y = sin.(φs) .* element.R1
 
 
@@ -135,7 +135,7 @@ function contour_element(element::ThickLens, height)
     φ = asin(-height / element.R2) 
     Δx = -cos(φ) * element.R2
     φs = range(-φ, φ, 100)
-    x2 = -cos.(φs) .* element.R2 .- Δx .+ element.t
+    x2 = -cos.(φs) .* element.R2 .- Δx
     y2 = -sin.(φs) .* element.R2
 
 
