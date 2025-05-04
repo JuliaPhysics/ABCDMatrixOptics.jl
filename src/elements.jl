@@ -33,11 +33,13 @@ struct ThickLens{T<:Number} <: Element{T}
     n_lens::T
     n1::T
     n2::T
+    focal_length::T
 end
     
 function ThickLens(; R1, R2, t, n_lens=1.5, n1=1.0, n2=1.0)
     R1, R2, t, n_lens, n1, n2 = promote(R1, R2, t, n_lens, n1, n2) 
-    return ThickLens{typeof(R1)}(R1, R2, t, n_lens, n1, n2)
+    focal_length = inv(-(n_lens - n2) / n1 / R2 + (n_lens - n1) / n1 / R1 + (n_lens - n1) * (n_lens - n2) / n1 / n_lens * t / R1 / R2)
+    return ThickLens{typeof(R1)}(R1, R2, t, n_lens, n1, n2, focal_length)
 end
 
 struct Interface{T<:Number} <: Element{T}
