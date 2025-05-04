@@ -123,7 +123,7 @@ using Plots
         for λ  in [100e-9, 500e-9] 
             for beam in [GaussianBeam(w0=100e-6, λ=λ, n=1.3, zpos=0), GeometricBeam(w=100e-6, k=0.0)]
                 p = plot([FreeSpace(100e-3)], beam) 
-                p = plot!([FreeSpace(100e-3), ThinLens(100e-3), Thicklens(R1=100e-3, R2=200e-3, t=0.0)], height=10) 
+                p = plot!([FreeSpace(100e-3), ThinLens(100e-3), ThickLens(R1=100e-3, R2=-200e-3, t=0.0)], height=10e-3) 
                 @test p == p
             end
         end

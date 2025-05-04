@@ -102,16 +102,13 @@ begin
 end
 
 # ╔═╡ 720bc546-8196-4210-9cb2-364799951ccf
-md"# Plot simple Lens system"
-
-# ╔═╡ 059ac4bf-5b38-4d26-9191-0d49897214ad
-
+md"# Plot Simple Lens system"
 
 # ╔═╡ 1a9aef8d-80a0-4dc2-9f63-3bd9ee52d58d
 tl1 = ThickLens(R1=100, R2=-100, t=0)
 
 # ╔═╡ 3832f547-0d24-4688-b77d-453053e577ea
-tl2 = ThickLens(R1=200, R2=-200, t=0)
+tl2 = ThickLens(R1=200, R2=-200, t=50)
 
 # ╔═╡ 38ecda12-6e81-4035-ad40-9498334471e7
 tl1.focal_length
@@ -125,6 +122,7 @@ M2 = [f2, tl1, f12, tl2, f1]
 # ╔═╡ ad8215d3-901e-4629-98c0-ee56533e5c1c
 begin
 	plot(M2, beam)
+	# specify the height and it'll show the lens with that height
 	plot!(M2, height=40)
 end
 
@@ -181,8 +179,7 @@ plot(system2, b2)
 # ╟─8faab7e3-56a9-4218-b187-7039dd43cb7b
 # ╠═5844cbf9-1551-4124-a168-5c7e1d4e4746
 # ╠═332416d5-91b8-497b-8d5e-57d8e1bc9a4d
-# ╠═720bc546-8196-4210-9cb2-364799951ccf
-# ╠═059ac4bf-5b38-4d26-9191-0d49897214ad
+# ╟─720bc546-8196-4210-9cb2-364799951ccf
 # ╠═1a9aef8d-80a0-4dc2-9f63-3bd9ee52d58d
 # ╠═3832f547-0d24-4688-b77d-453053e577ea
 # ╠═38ecda12-6e81-4035-ad40-9498334471e7
